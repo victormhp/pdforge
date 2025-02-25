@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "pymupdf>=1.25.3",
+    "pytest>=8.3.4",
 ]
 
 [dependency-groups]
@@ -15,6 +16,7 @@ dev = [
 
 [tool.ruff]
 line-length = 100
+extend-select = ["I"]
 
 [tool.ruff.format]
 quote-style = "double"
