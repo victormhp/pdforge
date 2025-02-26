@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 import pdfmod.cat
+import pdfmod.meta
 import pdfmod.rm
 import pdfmod.secure
 
@@ -89,8 +90,15 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename for the processed PDF file. If not provided, it will be named 'filename'-'mode'.pdf",
         metavar="OUTPUT",
     )
-
     ps_secure.set_defaults(func=pdfmod.secure.main)
+
+    # ---------------------------------------------------------------------------------------------
+    # 'meta' command
+    # ---------------------------------------------------------------------------------------------
+    ps_meta = ps_commands.add_parser("meta", help="Retrieve metadata from a PDF file")
+
+    ps_meta.add_argument("input", type=Path, help="Path to the input PDF file", metavar="INPUT")
+    ps_meta.set_defaults(func=pdfmod.meta.main)
 
     args = parser.parse_args(argv)
     if not hasattr(args, "func"):
