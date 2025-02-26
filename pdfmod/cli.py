@@ -6,6 +6,7 @@ from typing import Optional, Sequence
 import pdfmod.cat
 import pdfmod.meta
 import pdfmod.rm
+import pdfmod.rotate
 import pdfmod.secure
 
 
@@ -99,6 +100,38 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     ps_meta.add_argument("input", type=Path, help="Path to the input PDF file", metavar="INPUT")
     ps_meta.set_defaults(func=pdfmod.meta.main)
+
+    # ---------------------------------------------------------------------------------------------
+    # 'rotate' command
+    # ---------------------------------------------------------------------------------------------
+    ps_rotate = ps_commands.add_parser(
+        "rotate",
+        help="Rotate page horizontally or vertically",
+    )
+    ps_rotate.add_argument("input", type=Path, help="Path to the input PDF file.", metavar="INPUT")
+    ps_rotate.add_argument(
+        "pages",
+        help="Pages to rotate",
+        metavar="PAGES",
+    )
+    ps_rotate.add_argument(
+        "-r",
+        "--rotation",
+        default="left",
+        choices=pdfmod.rotate.rotations_map.keys(),
+        help="Rotation direction. Choose from: left, right, upside-down. Defaults to left",
+        metavar="ROTATION",
+    )
+    ps_rotate.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        nargs="?",
+        default="output.pdf",
+        help="output filename",
+        metavar="OUTPUT",
+    )
+    ps_rotate.set_defaults(func=pdfmod.rotate.main)
 
     args = parser.parse_args(argv)
     if not hasattr(args, "func"):
