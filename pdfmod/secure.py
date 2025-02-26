@@ -25,12 +25,18 @@ def main(args: PdfSecureArgs) -> None:
     if mode == "encrypt":
         src = open_pdf(input)
         output_file = output or f"{input.stem}-encrypted.pdf"
-        src.save(output_file, encryption=pymupdf.PDF_ENCRYPT_AES_256, user_pw=password)
+        src.save(
+            output_file,
+            encryption=pymupdf.PDF_ENCRYPT_AES_256,
+            user_pw=password,
+            garbage=4,
+            deflate=True,
+        )
         print(f"Encrypted PDF file saved to '{output_file}'")
     else:
         src = open_pdf(input, password)
         output_file = output or f"{input.stem}-decrypted.pdf"
-        src.save(output_file, encryption=pymupdf.PDF_ENCRYPT_NONE)
+        src.save(output_file, encryption=pymupdf.PDF_ENCRYPT_NONE, garbage=4, deflate=True)
         print(f"Decrypted PDF file saved to '{output_file}'")
 
     src.close()
