@@ -1,5 +1,6 @@
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Set
 
@@ -69,3 +70,15 @@ def is_valid_page_range(doc: pymupdf.Document, start: int, end: int) -> None:
     page_count = doc.page_count
     if start < 1 or end < 1 or start > page_count or end > page_count or start > end:
         error_args(f"Invalid page range: {start}-{end}. Must be within 1 and {page_count}")
+
+
+def parse_date(date_fmt: str) -> datetime:
+    """
+    Parses a PDF date string from the metadata in the format:
+    "D:YYYYMMDDHHMMSSZ00'00'" (e.g., "D:20160319061844Z00'00'")
+    """
+    date = date_fmt.split(":")[1]
+    date = date.replace("Z00'00'", "+00:00")
+    fmt = "%Y%m%d%H%M%S%z"
+    parsed_date = datetime.strptime(date, fmt)
+    return parsed_date
