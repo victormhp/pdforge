@@ -24,6 +24,8 @@ def test_secure_encrypt(sample_pdf: Path, capsys: pytest.CaptureFixture):
     assert dest.needs_pass
     assert dest.authenticate(password) > 0
 
+    dest.close()
+
 
 def test_secure_decrypt(sample_pdf: Path, capsys: pytest.CaptureFixture):
     input_pdf = str(sample_pdf)
@@ -41,3 +43,5 @@ def test_secure_decrypt(sample_pdf: Path, capsys: pytest.CaptureFixture):
     dest = pymupdf.open(output_pdf)
     assert not dest.is_encrypted
     assert not dest.needs_pass
+
+    dest.close()

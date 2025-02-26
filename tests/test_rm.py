@@ -25,6 +25,9 @@ def test_rm(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
     pages = parse_pages(src, page_range)
     page_count = src.page_count - len(pages)
     assert dest.page_count == page_count
+    
+    src.close()
+    dest.close()
 
 
 @pytest.mark.parametrize("page_range", ["a", "-", "1-", "0-1", "1-1000", "1000-1", "1-1-1"])
