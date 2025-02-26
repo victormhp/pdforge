@@ -29,10 +29,10 @@ def test_rm(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
 
 @pytest.mark.parametrize("page_range", ["a", "-", "1-", "0-1", "1-1000", "1000-1", "1-1-1"])
 def test_rm_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
-    input_pdf = f"{sample_pdf}:{page_range}"
+    input_pdf = str(sample_pdf)
     output_pdf = str(sample_pdf.parent / "output.pdf")
 
-    error_code = run_cli(["join", input_pdf, page_range, "-o", output_pdf])
+    error_code = run_cli(["rm", input_pdf, page_range, "-o", output_pdf])
     assert error_code == 2
     assert not Path(output_pdf).exists()
 
