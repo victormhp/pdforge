@@ -12,6 +12,7 @@ def test_join(sample_pdf: Path, capsys: pytest.CaptureFixture, opts: str):
 
     error_code = run_cli(["join", input_pdf, "-o", output_pdf])
     assert error_code == 0
+    assert Path(output_pdf).exists()
 
     out, err = capsys.readouterr()
     assert err == ""
@@ -25,6 +26,7 @@ def test_join_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, pag
 
     error_code = run_cli(["join", input_pdf, "-o", output_pdf])
     assert error_code == 2
+    assert not Path(output_pdf).exists()
 
     out, err = capsys.readouterr()
     assert out == ""
@@ -37,6 +39,7 @@ def test_join_encrypted(encrypted_pdf: Path, capsys: pytest.CaptureFixture):
 
     error_code = run_cli(["join", input_pdf, "-o", output_pdf])
     assert error_code == 0
+    assert Path(output_pdf).exists()
 
     out, err = capsys.readouterr()
     assert err == ""
@@ -49,6 +52,7 @@ def test_join_encrypted_failed(encrypted_pdf: Path, capsys: pytest.CaptureFixtur
 
     error_code = run_cli(["join", input_pdf, "-o", output_pdf])
     assert error_code == 2
+    assert not Path(output_pdf).exists()
 
     out, err = capsys.readouterr()
     assert out == ""
