@@ -14,7 +14,7 @@ def test_rm(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
 
     error_code = run_cli(["rm", input_pdf, page_range, "-o", output_pdf])
     assert error_code == 0
-    assert Path(output_pdf).exists()
+    assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
     assert err == ""
@@ -34,7 +34,7 @@ def test_rm_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page_
 
     error_code = run_cli(["rm", input_pdf, page_range, "-o", output_pdf])
     assert error_code == 2
-    assert not Path(output_pdf).exists()
+    assert not Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
     assert out == ""

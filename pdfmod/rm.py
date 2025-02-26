@@ -6,13 +6,13 @@ from pdfmod._utils import open_pdf, parse_pages
 
 @dataclass
 class PdfRemoveArgs:
-    path: str
+    input: Path
     pages: str
-    output: str
+    output: Path
 
 
 def main(args: PdfRemoveArgs) -> None:
-    path = Path(args.path)
+    path = args.input
     pages = args.pages
     output = args.output
 

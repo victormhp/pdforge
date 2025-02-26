@@ -26,7 +26,7 @@ def open_pdf(path: Path, password="") -> pymupdf.Document:
                 error_args(f"'{path.name}' authentication failed")
             return doc
         else:
-            error_args(f"'{path.name}' requires a password")
+            error_args(f"'{path.name}' has not been decrypted")
     except pymupdf.FileNotFoundError as e:
         error_args(e)
     except pymupdf.FileDataError as e:
@@ -42,11 +42,15 @@ def parse_pages(doc: pymupdf.Document, pages: str) -> Set[int]:
     for p in pages_arr:
         p = p.strip()
 
-        if re.match(r"^\d+$", p):
+        match_single = re.match(r"^\d+$", p)
+        match_range = re.match(r"^(\d+)-(\d+)$", p)
+
+        if match_single:
             is_valid_page(doc, int(p))
             nums.add(int(p) - 1)
-        elif re.match(r"^\d+-\d+$", p):
-            start, end = map(int, p.split("-", 1))
+        elif match_range:
+            start = int(match_range.group(1))
+            end = int(match_range.group(2))
             is_valid_page_range(doc, start, end)
             nums.update(range(start - 1, end))
         else:

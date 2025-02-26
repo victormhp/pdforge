@@ -1,5 +1,6 @@
 import argparse
 import sys
+from pathlib import Path
 from typing import Optional, Sequence
 
 import pdfmod.cat
@@ -24,17 +25,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ps_cat.add_argument(
         "input",
         nargs="+",
-        help="Path to the input PDF files to merge. Optionally specify a password for encrypted files in the format 'file.pdf:password'.",
-        metavar="FILE[:PASSWORD]",
-    )
-    ps_cat.add_argument(
-        "pages",
-        help="Pages to merge into a new PDF file. Specify as single values (e.g., 3), ranges (e.g., 2-5), or a comma-separated list (e.g., 1,3,6-8).",
-        metavar="PAGES",
+        help="Path to the input PDF files to merge. Optionally specify a page or page range in the format 'file.pdf:page' or 'file.pdf:start-end'",
+        metavar="FILE[:PAGES]]",
     )
     ps_cat.add_argument(
         "-o",
         "--output",
+        type=Path,
         nargs="?",
         default="output.pdf",
         help="output filename",
@@ -50,9 +47,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Remove specified pages from a PDF and create a new file with the remaining pages",
     )
     ps_rm.add_argument(
-        "path",
+        "input",
+        type=Path,
         help="Path to the input PDF file.",
-        metavar="PATH",
+        metavar="INPUT",
     )
     ps_rm.add_argument(
         "pages",
@@ -62,6 +60,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ps_rm.add_argument(
         "-o",
         "--output",
+        type=Path,
         nargs="?",
         default="output.pdf",
         help="output filename",

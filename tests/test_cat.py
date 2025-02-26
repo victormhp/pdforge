@@ -5,14 +5,14 @@ import pytest
 from .conftest import run_cli
 
 
-@pytest.mark.parametrize("opts", [":", "::", ":1", ":1-5", ":1-5:password"])
+@pytest.mark.parametrize("opts", [":", ":1", ":1-5"])
 def test_cat(sample_pdf: Path, capsys: pytest.CaptureFixture, opts: str):
     output_pdf = str(sample_pdf.parent / "output.pdf")
     input_pdf = str(sample_pdf) + opts
 
     error_code = run_cli(["cat", input_pdf, "-o", output_pdf])
     assert error_code == 0
-    assert Path(output_pdf).exists()
+    assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
     assert err == ""
@@ -31,29 +31,3 @@ def test_cat_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page
     out, err = capsys.readouterr()
     assert out == ""
     assert "Invalid page range" in err
-
-
-def test_cat_encrypted(encrypted_pdf: Path, capsys: pytest.CaptureFixture):
-    input_pdf = f"{encrypted_pdf}::pepelotas"
-    output_pdf = str(encrypted_pdf.parent / "output.pdf")
-
-    error_code = run_cli(["cat", input_pdf, "-o", output_pdf])
-    assert error_code == 0
-    assert Path(output_pdf).exists()
-
-    out, err = capsys.readouterr()
-    assert err == ""
-    assert "Merged PDF files" in out
-
-
-def test_cat_encrypted_failed(encrypted_pdf: Path, capsys: pytest.CaptureFixture):
-    input_pdf = f"{encrypted_pdf}::bad_password"
-    output_pdf = str(encrypted_pdf.parent / "output.pdf")
-
-    error_code = run_cli(["cat", input_pdf, "-o", output_pdf])
-    assert error_code == 2
-    assert not Path(output_pdf).exists()
-
-    out, err = capsys.readouterr()
-    assert out == ""
-    assert "authentication failed" in err

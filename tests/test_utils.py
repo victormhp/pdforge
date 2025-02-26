@@ -22,7 +22,7 @@ def test_open_pdf_requires_password(encrypted_pdf: Path, capsys: pytest.CaptureF
 
     out, err = capsys.readouterr()
     assert out == ""
-    assert "requires a password" in err
+    assert "not been decrypted" in err
 
 
 def test_open_pdf_password(encrypted_pdf: Path):
