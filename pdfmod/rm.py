@@ -12,11 +12,11 @@ class PdfRemoveArgs:
 
 
 def main(args: PdfRemoveArgs) -> None:
-    path = args.input
+    input = args.input
     pages = args.pages
     output = args.output
 
-    src = open_pdf(path)
+    src = open_pdf(input)
     pages_parsed = parse_pages(src, pages)
 
     src.delete_pages(list(pages_parsed))
