@@ -1,7 +1,7 @@
 import re
 import sys
 from pathlib import Path
-from typing import Tuple
+from typing import Set
 
 import pymupdf
 
@@ -31,13 +31,33 @@ def open_pdf(path: Path, password="") -> pymupdf.Document:
         error_args(e)
 
 
-def parse_pages_range(doc: pymupdf.Document, pages: str) -> Tuple[int, int]:
-    if not re.match(r"^\d+-\d+$", pages):
-        error_args(f"Invalid page range. '{pages}' must be 'start-end' with positive integers")
+def parse_pages(doc: pymupdf.Document, pages: str) -> Set[int]:
+    nums = set()
+    pages_arr = pages.split(",")
 
-    num_pages = doc.page_count
-    start, end = map(int, pages.split("-"))
-    if start < 1 or end < 1 or start >= num_pages or end > num_pages or start > end:
-        error_args(f"Invalid page range. {start}-{end} out of bounds")
+    for p in pages_arr:
+        p = p.strip()
 
-    return start, end
+        if re.match(r"^\d+$", p):
+            is_valid_page(doc, int(p))
+            nums.add(int(p) - 1)
+        elif re.match(r"^\d+-\d+$", p):
+            start, end = map(int, p.split("-", 1))
+            is_valid_page_range(doc, start, end)
+            nums.update(range(start - 1, end))
+        else:
+            error_args("Invalid page range")
+
+    return nums
+
+
+def is_valid_page(doc: pymupdf.Document, page: int) -> None:
+    page_count = doc.page_count
+    if page < 1 or page > page_count:
+        error_args(f"Invalid page range: {page}. Must be within 1 and {page_count}")
+
+
+def is_valid_page_range(doc: pymupdf.Document, start: int, end: int) -> None:
+    page_count = doc.page_count
+    if start < 1 or end < 1 or start > page_count or end > page_count or start > end:
+        error_args(f"Invalid page range: {start}-{end}. Must be within 1 and {page_count}")
