@@ -14,7 +14,7 @@ class PdfRemoveArgs:
 def main(args: PdfRemoveArgs) -> None:
     path = Path(args.path)
     pages = args.pages
-    output = args.output or "output.pdf"
+    output = args.output
 
     src = open_pdf(path)
     pages_parsed = parse_pages(src, pages)

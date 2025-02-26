@@ -1,5 +1,5 @@
+import argparse
 import sys
-from argparse import ArgumentParser
 from typing import Optional, Sequence
 
 import pdfmod.cat
@@ -7,7 +7,7 @@ import pdfmod.rm
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = ArgumentParser(
+    parser = argparse.ArgumentParser(
         prog="pdfmod",
         description="pdfmod: iLovePDF made in home.",
         epilog="For help with a specific command, see: `pdfmod <command> -h`.",
@@ -19,19 +19,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     # 'cat' command
     # ---------------------------------------------------------------------------------------------
     ps_cat = ps_commands.add_parser(
-        "cat", help="Merge a list of PDF files into a single document"
+        "cat", help="Merge multiple PDF files into a single PDF document"
     )
     ps_cat.add_argument(
         "input",
         nargs="+",
-        help="Path(s) to one or more input PDF files. Use the format 'file.pdf:start-end:password' for optional passwords and page ranges. Example: 'doc.pdf:1-3:myPass'. Leave password or range empty if not needed",
-        metavar="FILE[:START_END[:PASSWORD]]",
+        help="Path to the input PDF files to merge. Optionally specify a password for encrypted files in the format 'file.pdf:password'.",
+        metavar="FILE[:PASSWORD]",
+    )
+    ps_cat.add_argument(
+        "pages",
+        help="Pages to merge into a new PDF file. Specify as single values (e.g., 3), ranges (e.g., 2-5), or a comma-separated list (e.g., 1,3,6-8).",
+        metavar="PAGES",
     )
     ps_cat.add_argument(
         "-o",
         "--output",
         nargs="?",
-        help="Output filename",
+        default="output.pdf",
+        help="output filename",
         metavar="OUTPUT",
     )
     ps_cat.set_defaults(func=pdfmod.cat.main)
@@ -57,7 +63,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "-o",
         "--output",
         nargs="?",
-        help="Output filename",
+        default="output.pdf",
+        help="output filename",
         metavar="OUTPUT",
     )
     ps_rm.set_defaults(func=pdfmod.rm.main)
