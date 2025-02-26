@@ -5,7 +5,7 @@ import pytest
 from .conftest import run_cli
 
 
-@pytest.mark.parametrize("opts", [":", "::", ":1-5", ":1-5:password"])
+@pytest.mark.parametrize("opts", [":", "::", ":1", ":1-5", ":1-5:password"])
 def test_cat(sample_pdf: Path, capsys: pytest.CaptureFixture, opts: str):
     output_pdf = str(sample_pdf.parent / "output.pdf")
     input_pdf = str(sample_pdf) + opts

@@ -27,6 +27,10 @@ def open_pdf(path: Path, password="") -> pymupdf.Document:
             return doc
         else:
             error_args(f"'{path.name}' requires a password")
+    except pymupdf.FileNotFoundError as e:
+        error_args(e)
+    except pymupdf.FileDataError as e:
+        error_args(e)
     except Exception as e:
         error_args(e)
 
@@ -46,7 +50,7 @@ def parse_pages(doc: pymupdf.Document, pages: str) -> Set[int]:
             is_valid_page_range(doc, start, end)
             nums.update(range(start - 1, end))
         else:
-            error_args("Invalid page range")
+            error_args(f"Invalid page range: {pages}")
 
     return nums
 

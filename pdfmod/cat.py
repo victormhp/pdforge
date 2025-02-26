@@ -28,6 +28,7 @@ def main(args: PdfCatArgs) -> None:
         start, end = 0, src.page_count - 1
         if pages:
             pages_parsed = parse_pages(src, pages)
+            print(pages_parsed)
             start, end = min(pages_parsed), max(pages_parsed)
 
         doc.insert_pdf(src, from_page=start, to_page=end)
@@ -35,4 +36,4 @@ def main(args: PdfCatArgs) -> None:
 
     doc.save(output, garbage=4, deflate=True)
     doc.close()
-    print(f"Merged PDF files into {output}")
+    print(f"Merged PDF files into '{output}'")
