@@ -7,12 +7,12 @@ from pdfmod._utils import open_pdf, parse_pages
 
 
 @dataclass
-class PdfJoinArgs:
+class PdfCatArgs:
     input: list[str]
     output = "output.pdf"
 
 
-def main(args: PdfJoinArgs) -> None:
+def main(args: PdfCatArgs) -> None:
     files = args.input
     output = args.output or "output.pdf"
 

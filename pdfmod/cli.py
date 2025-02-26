@@ -2,7 +2,7 @@ import sys
 from argparse import ArgumentParser
 from typing import Optional, Sequence
 
-import pdfmod.join
+import pdfmod.cat
 import pdfmod.rm
 
 
@@ -16,25 +16,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ps_commands = parser.add_subparsers(title="commands", help="PDF Utilities", dest="command")
 
     # ---------------------------------------------------------------------------------------------
-    # 'join' command
+    # 'cat' command
     # ---------------------------------------------------------------------------------------------
-    ps_join = ps_commands.add_parser(
-        "join", help="Merge a list of PDF files into a single document"
+    ps_cat = ps_commands.add_parser(
+        "cat", help="Merge a list of PDF files into a single document"
     )
-    ps_join.add_argument(
+    ps_cat.add_argument(
         "input",
         nargs="+",
         help="Path(s) to one or more input PDF files. Use the format 'file.pdf:start-end:password' for optional passwords and page ranges. Example: 'doc.pdf:1-3:myPass'. Leave password or range empty if not needed",
         metavar="FILE[:START_END[:PASSWORD]]",
     )
-    ps_join.add_argument(
+    ps_cat.add_argument(
         "-o",
         "--output",
         nargs="?",
         help="Output filename",
         metavar="OUTPUT",
     )
-    ps_join.set_defaults(func=pdfmod.join.main)
+    ps_cat.set_defaults(func=pdfmod.cat.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'rm' command
