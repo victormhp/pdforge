@@ -10,6 +10,7 @@ import pdfmod.meta
 import pdfmod.rm
 import pdfmod.rotate
 import pdfmod.secure
+import pdfmod.watermark
 from pdfmod.__init__ import __version__
 
 
@@ -57,7 +58,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "rm",
         help="Remove specified pages from a PDF and create a new file with the remaining pages",
     )
-    ps_rm.add_argument("input", type=Path, help="Path to the input PDF file.", metavar="INPUT")
+    ps_rm.add_argument("input", type=Path, help="Path to the input PDF file", metavar="INPUT")
     ps_rm.add_argument(
         "pages",
         help="Pages to remove from the PDF file. Specify as single values (e.g., 3), ranges (e.g., 2-5), or a comma-separated list (e.g., 1,3,6-8)",
@@ -116,7 +117,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "rotate",
         help="Rotate page horizontally or vertically",
     )
-    ps_rotate.add_argument("input", type=Path, help="Path to the input PDF file.", metavar="INPUT")
+    ps_rotate.add_argument("input", type=Path, help="Path to the input PDF file", metavar="INPUT")
     ps_rotate.add_argument(
         "pages",
         help="Pages to rotate",
@@ -149,7 +150,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Extract text from PDF file",
     )
     ps_extract_text.add_argument(
-        "input", type=Path, help="Path to the input PDF file.", metavar="INPUT"
+        "input", type=Path, help="Path to the input PDF file", metavar="INPUT"
     )
     ps_extract_text.add_argument(
         "-o",
@@ -170,7 +171,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Extract images from PDF file",
     )
     ps_extract_images.add_argument(
-        "input", type=Path, help="Path to the input PDF file.", metavar="INPUT"
+        "input", type=Path, help="Path to the input PDF file", metavar="INPUT"
     )
     ps_extract_images.add_argument(
         "-o",
@@ -181,6 +182,33 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         metavar="OUTPUT",
     )
     ps_extract_images.set_defaults(func=pdfmod.extract_images.main)
+
+    # ---------------------------------------------------------------------------------------------
+    # 'watermark' command
+    # ---------------------------------------------------------------------------------------------
+    ps_watermark = ps_commands.add_parser(
+        "watermark",
+        help="Add a watermark to every page in a PDF file",
+    )
+    ps_watermark.add_argument(
+        "input", type=Path, help="Path to the input PDF file", metavar="INPUT"
+    )
+    ps_watermark.add_argument(
+        "image",
+        type=Path,
+        help="Path to the image file (e.g., PNG or JPG) that will be used as the watermark",
+        metavar="IMAGE",
+    )
+    ps_watermark.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        nargs="?",
+        default="watermarked.pdf",
+        help="Output filename. Defaults to 'watermarked.pdf'",
+        metavar="OUTPUT",
+    )
+    ps_watermark.set_defaults(func=pdfmod.watermark.main)
 
     args = parser.parse_args(argv)
 
