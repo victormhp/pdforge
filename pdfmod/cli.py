@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 import pdfmod.cat
+import pdfmod.extract_images
 import pdfmod.extract_text
 import pdfmod.meta
 import pdfmod.rm
@@ -160,6 +161,26 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         metavar="OUTPUT",
     )
     ps_extract_text.set_defaults(func=pdfmod.extract_text.main)
+
+    # ---------------------------------------------------------------------------------------------
+    # 'extract-images' command
+    # ---------------------------------------------------------------------------------------------
+    ps_extract_images = ps_commands.add_parser(
+        "extract-images",
+        help="Extract images from PDF file",
+    )
+    ps_extract_images.add_argument(
+        "input", type=Path, help="Path to the input PDF file.", metavar="INPUT"
+    )
+    ps_extract_images.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        nargs="?",
+        help="Output folder. Defaults to 'file'-images",
+        metavar="OUTPUT",
+    )
+    ps_extract_images.set_defaults(func=pdfmod.extract_images.main)
 
     args = parser.parse_args(argv)
 
