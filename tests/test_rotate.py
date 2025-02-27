@@ -19,7 +19,7 @@ def test_rotate(sample_pdf: Path, capsys: pytest.CaptureFixture, rotation: str, 
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Rotated pages" in out
 
     # Check if outfile has correct rotation for each page

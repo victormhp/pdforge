@@ -16,7 +16,7 @@ def test_secure_encrypt(sample_pdf: Path, capsys: pytest.CaptureFixture):
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Encrypted" in out
 
     dest = pymupdf.open(output_pdf)
@@ -37,7 +37,7 @@ def test_secure_decrypt(sample_pdf: Path, capsys: pytest.CaptureFixture):
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Decrypted" in out
 
     dest = pymupdf.open(output_pdf)

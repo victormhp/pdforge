@@ -18,7 +18,7 @@ def test_cat(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Merged PDF files" in out
 
     src = pymupdf.open(sample_pdf)
@@ -43,7 +43,7 @@ def test_cat_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page
     assert not Path(output_pdf).exists()
 
     out, err = capsys.readouterr()
-    assert out == ""
+    assert not out
     assert "Invalid page range" in err
 
 
@@ -57,7 +57,7 @@ def test_cat_multiple_files(sample_pdf: Path, capsys: pytest.CaptureFixture):
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Merged PDF files" in out
 
     total_pages = 0

@@ -5,7 +5,7 @@ import pytest
 from tests.conftest import run_cli
 
 
-def test_rotate(sample_pdf: Path, capsys: pytest.CaptureFixture):
+def test_extract_text(sample_pdf: Path, capsys: pytest.CaptureFixture):
     input_pdf = str(sample_pdf)
     output_pdf = str(sample_pdf.parent / "output.txt")
 
@@ -14,5 +14,5 @@ def test_rotate(sample_pdf: Path, capsys: pytest.CaptureFixture):
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Text extracted" in out

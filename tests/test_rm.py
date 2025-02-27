@@ -17,7 +17,7 @@ def test_rm(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
     assert Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert err == ""
+    assert not err
     assert "Removed pages" in out
 
     src = pymupdf.open(input_pdf)
@@ -40,5 +40,5 @@ def test_rm_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page_
     assert not Path(output_pdf).is_file()
 
     out, err = capsys.readouterr()
-    assert out == ""
+    assert not out
     assert "Invalid page range" in err
