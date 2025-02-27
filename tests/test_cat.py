@@ -3,7 +3,7 @@ from pathlib import Path
 import pymupdf
 import pytest
 
-from pdfmod._utils import parse_pages
+from pdfix._utils import parse_pages
 
 from .conftest import run_cli
 

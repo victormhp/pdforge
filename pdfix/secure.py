@@ -4,7 +4,7 @@ from typing import Literal
 
 import pymupdf
 
-from pdfmod._utils import open_pdf
+from pdfix._utils import open_pdf
 
 
 @dataclass

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pymupdf
 
-from pdfmod._utils import open_pdf, parse_pages
+from pdfix._utils import open_pdf, parse_pages
 
 
 @dataclass

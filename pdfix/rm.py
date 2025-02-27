@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from pdfmod._utils import open_pdf, parse_pages
+from pdfix._utils import open_pdf, parse_pages
 
 
 @dataclass

@@ -3,26 +3,26 @@ import sys
 from pathlib import Path
 from typing import Optional, Sequence
 
-import pdfmod.cat
-import pdfmod.extract_images
-import pdfmod.extract_text
-import pdfmod.meta
-import pdfmod.rm
-import pdfmod.rotate
-import pdfmod.secure
-import pdfmod.watermark
-from pdfmod.__init__ import __version__
+import pdfix.cat
+import pdfix.extract_images
+import pdfix.extract_text
+import pdfix.meta
+import pdfix.rm
+import pdfix.rotate
+import pdfix.secure
+import pdfix.watermark
+from pdfix.__init__ import __version__
 
 
 def display_version():
-    print(f"pdfmod v{__version__}")
+    print(f"pdfix v{__version__}")
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="pdfmod",
-        description="pdfmod: iLovePDF made in home.",
-        epilog="For help with a specific command, see: `pdfmod <command> -h`.",
+        prog="pdfix",
+        description="pdfix: iLovePDF made in home.",
+        epilog="For help with a specific command, see: `pdfix <command> -h`.",
     )
     parser.add_argument("-v", "--version", action="store_true", help="display the current version")
 
@@ -49,7 +49,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename. Defaults to 'output.pdf'",
         metavar="OUTPUT",
     )
-    ps_cat.set_defaults(func=pdfmod.cat.main)
+    ps_cat.set_defaults(func=pdfix.cat.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'rm' command
@@ -73,7 +73,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename. Defaults to 'output.pdf'",
         metavar="OUTPUT",
     )
-    ps_rm.set_defaults(func=pdfmod.rm.main)
+    ps_rm.set_defaults(func=pdfix.rm.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'secure' command
@@ -100,7 +100,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename for the processed PDF file. If not provided, it will be named 'filename'-'mode'.pdf",
         metavar="OUTPUT",
     )
-    ps_secure.set_defaults(func=pdfmod.secure.main)
+    ps_secure.set_defaults(func=pdfix.secure.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'meta' command
@@ -108,7 +108,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ps_meta = ps_commands.add_parser("meta", help="Retrieve metadata from a PDF file")
 
     ps_meta.add_argument("input", type=Path, help="Path to the input PDF file", metavar="INPUT")
-    ps_meta.set_defaults(func=pdfmod.meta.main)
+    ps_meta.set_defaults(func=pdfix.meta.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'rotate' command
@@ -127,7 +127,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "-r",
         "--rotation",
         default="left",
-        choices=pdfmod.rotate.rotations_map.keys(),
+        choices=pdfix.rotate.rotations_map.keys(),
         help="Rotation direction. Choose from: left, right, upside-down. Defaults to left",
         metavar="ROTATION",
     )
@@ -140,7 +140,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename. Defaults to 'output.pdf'",
         metavar="OUTPUT",
     )
-    ps_rotate.set_defaults(func=pdfmod.rotate.main)
+    ps_rotate.set_defaults(func=pdfix.rotate.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'extract-text' command
@@ -161,7 +161,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename. Defaults to 'output.txt'",
         metavar="OUTPUT",
     )
-    ps_extract_text.set_defaults(func=pdfmod.extract_text.main)
+    ps_extract_text.set_defaults(func=pdfix.extract_text.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'extract-images' command
@@ -181,7 +181,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output folder. Defaults to 'file'-images",
         metavar="OUTPUT",
     )
-    ps_extract_images.set_defaults(func=pdfmod.extract_images.main)
+    ps_extract_images.set_defaults(func=pdfix.extract_images.main)
 
     # ---------------------------------------------------------------------------------------------
     # 'watermark' command
@@ -208,7 +208,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         help="Output filename. Defaults to 'watermarked.pdf'",
         metavar="OUTPUT",
     )
-    ps_watermark.set_defaults(func=pdfmod.watermark.main)
+    ps_watermark.set_defaults(func=pdfix.watermark.main)
 
     args = parser.parse_args(argv)
 

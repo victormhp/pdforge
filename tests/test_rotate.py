@@ -3,8 +3,8 @@ from pathlib import Path
 import pymupdf
 import pytest
 
-from pdfmod._utils import parse_pages
-from pdfmod.rotate import rotations_map
+from pdfix._utils import parse_pages
+from pdfix.rotate import rotations_map
 from tests.conftest import run_cli
 
 
