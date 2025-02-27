@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 import pdfmod.cat
+import pdfmod.extract_text
 import pdfmod.meta
 import pdfmod.rm
 import pdfmod.rotate
@@ -37,7 +38,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         type=Path,
         nargs="?",
         default="output.pdf",
-        help="output filename",
+        help="Output filename. Defaults to 'output.pdf'",
         metavar="OUTPUT",
     )
     ps_cat.set_defaults(func=pdfmod.cat.main)
@@ -61,7 +62,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         type=Path,
         nargs="?",
         default="output.pdf",
-        help="output filename",
+        help="Output filename. Defaults to 'output.pdf'",
         metavar="OUTPUT",
     )
     ps_rm.set_defaults(func=pdfmod.rm.main)
@@ -128,10 +129,31 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         type=Path,
         nargs="?",
         default="output.pdf",
-        help="output filename",
+        help="Output filename. Defaults to 'output.pdf'",
         metavar="OUTPUT",
     )
     ps_rotate.set_defaults(func=pdfmod.rotate.main)
+
+    # ---------------------------------------------------------------------------------------------
+    # 'extract-text' command
+    # ---------------------------------------------------------------------------------------------
+    ps_extract_text = ps_commands.add_parser(
+        "extract-text",
+        help="Extract text from PDF file",
+    )
+    ps_extract_text.add_argument(
+        "input", type=Path, help="Path to the input PDF file.", metavar="INPUT"
+    )
+    ps_extract_text.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        nargs="?",
+        default="output.txt",
+        help="Output filename. Defaults to 'output.txt'",
+        metavar="OUTPUT",
+    )
+    ps_extract_text.set_defaults(func=pdfmod.extract_text.main)
 
     args = parser.parse_args(argv)
     if not hasattr(args, "func"):
