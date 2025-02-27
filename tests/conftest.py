@@ -6,6 +6,9 @@ import pytest
 
 import pdfmod.cli
 
+TEST_ROOT = Path(__file__).parent.resolve()
+SAMPLES_ROOT = TEST_ROOT.parent / "samples"
+
 
 def run_cli(args: Optional[Sequence[str]] = None):
     try:
