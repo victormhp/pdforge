@@ -9,6 +9,11 @@ import pdfmod.meta
 import pdfmod.rm
 import pdfmod.rotate
 import pdfmod.secure
+from pdfmod.__init__ import __version__
+
+
+def display_version():
+    print(f"pdfmod v{__version__}")
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
@@ -17,6 +22,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         description="pdfmod: iLovePDF made in home.",
         epilog="For help with a specific command, see: `pdfmod <command> -h`.",
     )
+    parser.add_argument("-v", "--version", action="store_true", help="display the current version")
 
     ps_commands = parser.add_subparsers(title="commands", help="PDF Utilities", dest="command")
 
@@ -156,6 +162,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ps_extract_text.set_defaults(func=pdfmod.extract_text.main)
 
     args = parser.parse_args(argv)
+
+    if args.version:
+        display_version()
+        sys.exit(0)
+
     if not hasattr(args, "func"):
         parser.print_help()
         sys.exit(1)
