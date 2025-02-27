@@ -1,6 +1,9 @@
 [project]
 name = "pdfix"
 version = "0.1.0"
+authors = [
+  { name="Victor Alberto", email="victoralbertomhp@gmail.com" },
+]
 description = "A command-line utility for modifying PDFs with ease. Perform common PDF operations such as merging, splitting, compressing, and extracting pages, all from your terminal."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -8,6 +11,13 @@ dependencies = [
     "pymupdf>=1.25.3",
     "pytest>=8.3.4",
 ]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+
+[project.urls]
+Homepage = "https://github.com/victormhp/pdfix"
+Issues = "https://github.com/victormhp/pdfix/issues"
 
 [dependency-groups]
 dev = [
