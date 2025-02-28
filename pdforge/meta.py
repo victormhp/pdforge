@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from pdforge._utils import open_pdf, parse_date
+from pdforge._utils import open_pdf
+from pdforge.parsing import parse_date
 
 
 @dataclass

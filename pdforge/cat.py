@@ -3,7 +3,8 @@ from pathlib import Path
 
 import pymupdf
 
-from pdforge._utils import open_pdf, parse_pages
+from pdforge._utils import is_valid_page_range, open_pdf
+from pdforge.parsing import parse_filename_pages
 
 
 @dataclass
@@ -13,20 +14,19 @@ class PdfCatArgs:
 
 
 def main(args: PdfCatArgs) -> None:
-    files = args.input
+    input = args.input
     output = args.output
-
     doc = pymupdf.open()
-    for f in files:
-        input = f.split(":", 1)
-        path = Path(input[0])
-        pages = input[1] if len(input) > 1 else ""
-        src = open_pdf(path)
 
-        start, end = 0, src.page_count - 1
+    parsed_args = parse_filename_pages(input)
+    for filepath, pages in parsed_args:
+        src = open_pdf(filepath)
+        start = 0
+        end = src.page_count - 1
+
         if pages:
-            pages_parsed = parse_pages(src, pages)
-            start, end = min(pages_parsed), max(pages_parsed)
+            start, end = min(pages), max(pages)
+            is_valid_page_range(start, end, src.page_count)
 
         doc.insert_pdf(src, from_page=start, to_page=end)
         src.close()

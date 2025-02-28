@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from pdforge._utils import open_pdf, parse_pages
+from pdforge._utils import is_valid_page_range, open_pdf
+from pdforge.parsing import parse_pages
 
 
 @dataclass
@@ -17,7 +18,9 @@ def main(args: PdfRemoveArgs) -> None:
     output = args.output
 
     src = open_pdf(input)
-    pages_parsed = parse_pages(src, pages)
+    pages_parsed = parse_pages(pages)
+    start, end = min(pages_parsed), max(pages_parsed)
+    is_valid_page_range(start, end, src.page_count)
 
     src.delete_pages(list(pages_parsed))
     src.save(output, garbage=4, deflate=True)

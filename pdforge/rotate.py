@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
-from pdforge._utils import open_pdf, parse_pages
+from pdforge._utils import is_valid_page_range, open_pdf
+from pdforge.parsing import parse_pages
 
 rotations_map = {
     "right": 90,
@@ -26,7 +27,9 @@ def main(args: PdfRotateArgs) -> None:
     output = args.output
 
     src = open_pdf(input)
-    pages_parsed = parse_pages(src, pages)
+    pages_parsed = parse_pages(pages)
+    start, end = min(pages_parsed), max(pages_parsed)
+    is_valid_page_range(start, end, src.page_count)
 
     angle = rotations_map[rotation]
     for p in pages_parsed:

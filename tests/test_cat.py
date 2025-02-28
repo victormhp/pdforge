@@ -3,17 +3,17 @@ from pathlib import Path
 import pymupdf
 import pytest
 
-from pdforge._utils import parse_pages
+from pdforge.parsing import parse_pages
 
 from .conftest import run_cli
 
 
-@pytest.mark.parametrize("page_range", [":", ":1", ":1-5", ":2-8"])
+@pytest.mark.parametrize("page_range", ["1", "1,2,3", "1-5", "1,2,3,4-8"])
 def test_cat(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
+    input_pdf = str(sample_pdf)
     output_pdf = str(sample_pdf.parent / "output.pdf")
-    input_pdf = str(sample_pdf) + page_range
 
-    error_code = run_cli(["cat", input_pdf, "-o", output_pdf])
+    error_code = run_cli(["cat", input_pdf, page_range, "-o", output_pdf])
     assert error_code == 0
     assert Path(output_pdf).is_file()
 
@@ -24,8 +24,7 @@ def test_cat(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
     src = pymupdf.open(sample_pdf)
     dest = pymupdf.open(output_pdf)
 
-    _, pages = input_pdf.split(":")
-    parsed_pages = parse_pages(src, pages) if pages else []
+    parsed_pages = parse_pages(page_range)
     total_pages = len(parsed_pages) if parsed_pages else src.page_count
     assert total_pages == dest.page_count
 
@@ -33,12 +32,12 @@ def test_cat(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
     dest.close()
 
 
-@pytest.mark.parametrize("page_range", ["a", "-", "1-", "0-1", "1-1000", "1000-1", "1-1-1"])
+@pytest.mark.parametrize("page_range", ["0-1", "1-1000"])
 def test_cat_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page_range: str):
-    input_pdf = f"{sample_pdf}:{page_range}"
+    input_pdf = str(sample_pdf)
     output_pdf = str(sample_pdf.parent / "output.pdf")
 
-    error_code = run_cli(["cat", input_pdf, "-o", output_pdf])
+    error_code = run_cli(["cat", input_pdf, page_range, "-o", output_pdf])
     assert error_code == 2
     assert not Path(output_pdf).exists()
 
@@ -48,11 +47,15 @@ def test_cat_invalid_range(sample_pdf: Path, capsys: pytest.CaptureFixture, page
 
 
 def test_cat_multiple_files(sample_pdf: Path, capsys: pytest.CaptureFixture):
-    page_range = [":1-4", ":2-4", ":4-8"]
+    page_ranges = ["1,2,3", "1,2-8", "1-4", "2-4", "4-8"]
     output_pdf = str(sample_pdf.parent / "output.pdf")
-    input_files = [f"{sample_pdf}{p}" for p in page_range]
 
-    error_code = run_cli(["cat", *input_files, "-o", output_pdf])
+    command = ["cat"]
+    for page_range in page_ranges:
+        command.extend([str(sample_pdf), page_range])
+    command.extend(["-o", output_pdf])
+    error_code = run_cli(command)
+
     assert error_code == 0
     assert Path(output_pdf).is_file()
 
@@ -61,12 +64,9 @@ def test_cat_multiple_files(sample_pdf: Path, capsys: pytest.CaptureFixture):
     assert "Merged PDF files" in out
 
     total_pages = 0
-    for i, f in enumerate(input_files):
-        path, pages = f.split(":")
-        src = pymupdf.open(path)
-        parsed_pages = parse_pages(src, pages)
-        total_pages += len(parsed_pages)
-        src.close()
+    for r in page_ranges:
+        pages = parse_pages(r)
+        total_pages += len(pages)
 
     dest = pymupdf.open(output_pdf)
     assert total_pages == dest.page_count

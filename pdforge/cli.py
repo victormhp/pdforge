@@ -37,8 +37,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ps_cat.add_argument(
         "input",
         nargs="+",
-        help="Path to the input PDF files to merge. Optionally specify a page or page range in the format 'file.pdf:page' or 'file.pdf:start-end'",
-        metavar="FILE[:PAGES]]",
+        help="Path to the input PDF files to merge, optionally followed by page ranges (e.g., file1.pdf 1-5 file2.pdf 2-8)",
+        metavar="FILE [PAGES]",
     )
     ps_cat.add_argument(
         "-o",

@@ -3,7 +3,7 @@ from pathlib import Path
 import pymupdf
 import pytest
 
-from pdforge._utils import parse_pages
+from pdforge.parsing import parse_pages
 from pdforge.rotate import rotations_map
 from tests.conftest import run_cli
 
@@ -24,7 +24,7 @@ def test_rotate(sample_pdf: Path, capsys: pytest.CaptureFixture, rotation: str, 
 
     # Check if outfile has correct rotation for each page
     dest = pymupdf.open(output_pdf)
-    for p in parse_pages(dest, page_range):
+    for p in parse_pages(page_range):
         angle = rotations_map[rotation]
         assert angle == dest[p].rotation
     dest.close()
