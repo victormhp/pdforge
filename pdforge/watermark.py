@@ -21,9 +21,7 @@ def main(args: PdfWatermarkArgs) -> None:
         img = open(image_path, "rb").read()
         img_xref = 0
         for page in src:
-            page.insert_image(
-                rect=page.bound(), stream=img, xref=img_xref, overlay=False
-            )
+            page.insert_image(rect=page.bound(), stream=img, xref=img_xref, overlay=False)
 
         src.save(output, garbage=4, deflate=True)
         print(f"Watermarked PDF file saved to '{output}'")
