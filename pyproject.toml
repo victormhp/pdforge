@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pdfix"
+name = "pdforge"
 version = "0.0.1"
 description = "A command-line utility for modifying PDFs with ease. Perform common PDF operations such as merging, splitting, compressing, and extracting pages, all from your terminal."
 readme = "README.md"
@@ -22,11 +22,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/victormhp/pdfix"
-Issues = "https://github.com/victormhp/pdfix/issues"
+Homepage = "https://github.com/victormhp/pdforge"
+Issues = "https://github.com/victormhp/pdforge/issues"
 
 [project.scripts]
-pdfix = "pdfix.cli:main"
+pdforge = "pdforge.cli:main"
 
 [dependency-groups]
 dev = [

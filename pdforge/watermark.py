@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from pdfix._utils import error_args, open_pdf
+from pdforge._utils import error_args, open_pdf
 
 
 @dataclass

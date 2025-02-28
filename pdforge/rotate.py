@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
-from pdfix._utils import open_pdf, parse_pages
+from pdforge._utils import open_pdf, parse_pages
 
 rotations_map = {
     "right": 90,

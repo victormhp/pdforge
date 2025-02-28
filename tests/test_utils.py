@@ -3,7 +3,7 @@ from pathlib import Path
 import pymupdf
 import pytest
 
-from pdfix._utils import open_pdf
+from pdforge._utils import open_pdf
 
 
 def test_open_pdf(sample_pdf: Path):

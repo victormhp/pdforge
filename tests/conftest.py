@@ -4,7 +4,7 @@ from typing import Optional, Sequence
 import pymupdf
 import pytest
 
-import pdfix.cli
+import pdforge.cli
 
 TEST_ROOT = Path(__file__).parent.resolve()
 SAMPLES_ROOT = TEST_ROOT.parent / "samples"
@@ -12,7 +12,7 @@ SAMPLES_ROOT = TEST_ROOT.parent / "samples"
 
 def run_cli(args: Optional[Sequence[str]] = None):
     try:
-        pdfix.cli.main(args)
+        pdforge.cli.main(args)
     except SystemExit as error:
         return error.code
 

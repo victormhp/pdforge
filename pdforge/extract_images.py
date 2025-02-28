@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pymupdf
 
-from pdfix._utils import open_pdf
+from pdforge._utils import open_pdf
 
 
 @dataclass

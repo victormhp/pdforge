@@ -1,22 +1,22 @@
-# pdfix: iLovePDF made in home.
+# pdforge: iLovePDF made in home.
 
 I'm too lazy to go to iLovePDF so i wrote this. Blessings!
 
 ## Install
 ```console
-pip install -U pdfix
+pip install -U pdforge
 ```
-`pdfix` is an application, you might want to install it with [`pipx`](https://pypi.org/project/pipx/).
+`pdforge` is an application, you might want to install it with [`pipx`](https://pypi.org/project/pipx/).
 
 ## Usage
 ```console
-$ pdfix -h
+$ pdforge -h
 
-usage: pdfix [-h] [-v]
+usage: pdforge [-h] [-v]
              {cat,rm,secure,meta,rotate,extract-text,extract-images,watermark}
              ...
 
-pdfix: iLovePDF made in home.
+pdforge: iLovePDF made in home.
 
 options:
   -h, --help            show this help message and exit
@@ -35,14 +35,14 @@ commands:
     extract-images      Extract images from PDF file
     watermark           Add a watermark to every page in a PDF file
 
-For help with a specific command, see: `pdfix <command> -h`.
+For help with a specific command, see: `pdforge <command> -h`.
 ```
 
 To view detailed help for each subcommand, use the `-h` or `--help` flag:
 ```console
-$ pdfix cat -h
+$ pdforge cat -h
 
-usage: pdfix cat [-h] [-o [OUTPUT]] FILE[:PAGES]] [FILE[:PAGES]] ...]
+usage: pdforge cat [-h] [-o [OUTPUT]] FILE[:PAGES]] [FILE[:PAGES]] ...]
 
 positional arguments:
   FILE[:PAGES]]         Path to the input PDF files to merge. Optionally
